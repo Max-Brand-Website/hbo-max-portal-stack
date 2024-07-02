@@ -1,0 +1,1 @@
+export type Access = 'Pending' | 'Approved' | 'Denied' | 'Blacklisted';
