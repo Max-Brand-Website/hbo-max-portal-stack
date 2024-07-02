@@ -1,5 +1,3 @@
-require('dotenv').config() 
-
 // @ts-nocheck
 import PortalPasswordEmail from '@/emails/portal-password';
 import { NextRequest, NextResponse } from 'next/server';
