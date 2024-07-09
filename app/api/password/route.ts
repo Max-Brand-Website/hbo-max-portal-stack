@@ -16,7 +16,7 @@ interface WebflowFormSubmission {
   }
 }
 
-const base = require('airtable').base('appi0Asy4sUqesAXz');
+const base = require('airtable').base('appX2Y7nC8OG7v2IU');
 
 export async function POST(request: NextRequest) {
   try {
