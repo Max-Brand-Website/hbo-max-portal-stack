@@ -30,7 +30,7 @@ export const AccessNotification = ({
     const message =
         access === 'Approved' ? (
             <>
-                {`Your request for access has been approved. Welcome to the Max Brand Portal! Sign in at `}
+                {`Your request for access has been approved. Welcome to the HBO Max Brand Portal! Sign in at `}
                 <Link
                     href={url}
                     style={{
@@ -44,7 +44,7 @@ export const AccessNotification = ({
             </>
         ) : (
             <>
-                {`Your request for access to the Max Brand Portal has been
+                {`Your request for access to the HBO Max Brand Portal has been
                 denied. Please contact your Max representative or `}
                 <Link
                     href="mailto:MaxBrandPortalAccess@wbd.com"
