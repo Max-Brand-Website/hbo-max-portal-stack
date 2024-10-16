@@ -29,7 +29,7 @@ export const PortalPasswordEmail = ({
         <Body style={main}>
             <Container style={container}>
                 <Img
-                    src="https://max-portal-stack.vercel.app/max-logo.png"
+                    src="https://hbo-max-portal-stack.vercel.app/hbo-max-email-logo.png"
                     width={251}
                     height={69}
                     alt="Max"
@@ -39,7 +39,7 @@ export const PortalPasswordEmail = ({
                 <Hr style={hr} />
 
                 <Text style={text}>
-                    We have received your request for access to the Max Brand Portal.
+                    We have received your request for access to the HBO Max Brand Portal.
                     Please use the following password to log in:{' '}
                     <strong>{password}</strong>
                 </Text>
@@ -51,7 +51,7 @@ export const PortalPasswordEmail = ({
 
                 <Hr style={hr} />
 
-                <Text style={smallText}>© Max. All rights reserved.</Text>
+                <Text style={smallText}>© HBO Max. All rights reserved.</Text>
             </Container>
         </Body>
     </Html>
