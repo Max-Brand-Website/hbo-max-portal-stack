@@ -65,14 +65,14 @@ const fontFamily = {
 };
 
 const main = {
-    backgroundColor: '#002BE7',
+    backgroundColor: '#000000',
     color: '#ffffff',
     padding: 0,
     margin: 0,
 };
 
 const container = {
-    backgroundColor: '#002BE7',
+    backgroundColor: '#000000',
     padding: '45px',
     margin: '0 auto',
 };
@@ -107,9 +107,9 @@ const text = {
 };
 
 const button = {
-    backgroundColor: '#00F0FF',
+    backgroundColor: '#8298AB',
     borderRadius: '40px',
-    color: '#002BE7',
+    color: '#000000',
     fontSize: '14px',
     fontWeight: '700',
     textDecoration: 'none',
