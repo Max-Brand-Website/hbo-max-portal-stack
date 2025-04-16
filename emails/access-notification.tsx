@@ -34,7 +34,7 @@ export const AccessNotification = ({
                 <Link
                     href={url}
                     style={{
-                        color: '#00F0FF',
+                        color: '#8298AB',
                         textDecoration: 'underline',
                     }}
                 >
@@ -49,7 +49,7 @@ export const AccessNotification = ({
                 <Link
                     href="mailto:MaxBrandPortalAccess@wbd.com"
                     style={{
-                        color: '#00F0FF',
+                        color: '#8298AB',
                         textDecoration: 'underline',
                     }}
                 >
@@ -70,7 +70,7 @@ export const AccessNotification = ({
             <Body style={main}>
                 <Container
                     style={{
-                        backgroundColor: '#002BE7',
+                        backgroundColor: '#000000',
                         padding: '45px',
                         margin: '0 auto',
                     }}
@@ -111,7 +111,7 @@ export const AccessNotification = ({
                 <Link
                     href="mailto:StreamingCreativeEMEA@wbd.com"
                     style={{
-                        color: '#00F0FF',
+                        color: '#8298AB',
                         textDecoration: 'underline',
                     }}
                 >
@@ -134,7 +134,7 @@ const fontFamily = {
 };
 
 const main = {
-    backgroundColor: '#002BE7',
+    backgroundColor: '#000000',
     color: '#ffffff',
     padding: 0,
     margin: 0,
@@ -170,9 +170,9 @@ const text = {
 };
 
 const button = {
-    backgroundColor: '#00F0FF',
+    backgroundColor: '#8298AB',
     borderRadius: '40px',
-    color: '#002BE7',
+    color: '#ffffff',
     fontSize: '14px',
     fontWeight: '700',
     textDecoration: 'none',
