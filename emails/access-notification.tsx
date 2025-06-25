@@ -76,7 +76,7 @@ export const AccessNotification = ({
                     }}
                 >
                     <Img
-                        src="https://max-portal-stack.vercel.app/max-logo.png"
+                        src="https://max-portal-stack.vercel.app/HBO-Max-Refresh.png"
                         width={251}
                         height={69}
                         alt="Max"
