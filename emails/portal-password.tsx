@@ -29,7 +29,7 @@ export const PortalPasswordEmail = ({
         <Body style={main}>
             <Container style={container}>
                 <Img
-                    src="https://hbo-max-portal-stack.vercel.app/hbo-max-email-logo.png"
+                    src="https://hbo-max-portal-stack.vercel.app/HBO-Max-Refresh.png"
                     width={251}
                     height={69}
                     alt="Max"
