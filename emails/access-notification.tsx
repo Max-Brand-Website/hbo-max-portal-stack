@@ -47,13 +47,13 @@ export const AccessNotification = ({
                 {`Your request for access to the HBO Max Brand Portal has been
                 denied. Please contact your Max representative or `}
                 <Link
-                    href="mailto:MaxBrandPortalAccess@wbd.com"
+                    href="mailto:HBOMax_Brand_Team@wbd.com."
                     style={{
                         color: '#8298AB',
                         textDecoration: 'underline',
                     }}
                 >
-                    MaxBrandPortalAccess@wbd.com
+                    HBOMax_Brand_Team@wbd.com.
                 </Link>
                 {` for more
                 information.`}
@@ -76,7 +76,7 @@ export const AccessNotification = ({
                     }}
                 >
                     <Img
-                        src="https://max-portal-stack.vercel.app/HBO-Max-Refresh.png"
+                        src="https://hbo-max-portal-stack.vercel.app/HBO-Max-Refresh.png"
                         width={251}
                         height={69}
                         alt="Max"
