@@ -22,7 +22,7 @@ interface Props {
 export const AccessNotification = ({
     name = 'Chloe Smith',
     access = 'Approved',
-    url = 'https://brand.max.com/access-granted',
+    url = 'https://brand.hbomax.com/access-granted',
 
 }: Props) => {
     const currentYear = new Date().getFullYear();
