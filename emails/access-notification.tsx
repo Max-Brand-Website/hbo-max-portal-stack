@@ -103,22 +103,6 @@ export const AccessNotification = ({
                     )}
 
                      <Hr style={hr} />
-                     <Text style={text}>
-                     <Link href="" style={{fontWeight: 'bold', color: '#ffffff', textDecoration: 'none'}}>Please note</Link><Link href="" style={{fontWeight: 'normal', color: '#ffffff', textDecoration: 'none'}}> that the name of the product in Belgium and the Netherlands is HBO Max, not Max. Any assets that may be used in that region must utilize the appropriate HBO Max branding.</Link>
-                    </Text>
-                    <Text style={text}>
-                    {`Please contact `}
-                <Link
-                    href="mailto:StreamingCreativeEMEA@wbd.com"
-                    style={{
-                        color: '#8298AB',
-                        textDecoration: 'underline',
-                    }}
-                >
-                     StreamingCreativeEMEA@wbd.com
-                </Link>
-                {` for Belgium & Netherlands branding.`}
-                </Text>
                    
                 </Container>
             </Body>
