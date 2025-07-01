@@ -30,7 +30,7 @@ export const AccessNotification = ({
     const message =
         access === 'Approved' ? (
             <>
-                {`Your request for access has been approved. Welcome to the HBO Max Brand Portal! Sign in at `}
+                {`Your request for access has been approved. Welcome to the HBO Max Brand Portal. Sign in at `}
                 <Link
                     href={url}
                     style={{
@@ -98,7 +98,7 @@ export const AccessNotification = ({
                             style={button}
                             href={url}
                         >
-                            Sign in
+                            Sign In
                         </Button>
                     )}
 
