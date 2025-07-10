@@ -47,7 +47,7 @@ export const AccessNotification = ({
                 {`Your request for access to the HBO Max Brand Portal has been
                 denied. Please contact your Max representative or `}
                 <Link
-                    href="mailto:HBOMax_Brand_Team@wbd.com."
+                    href="mailto:HBOMax_Brand_Portal_Access@wbd.com."
                     style={{
                         color: '#8298AB',
                         textDecoration: 'underline',
