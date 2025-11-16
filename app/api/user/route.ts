@@ -63,6 +63,8 @@ export async function GET(request: NextRequest) {
       email: email || emailParam,
     });
 
+    console.log({ memberstackUser });
+
     console.log(`Setting ${email} from ${prevAccess} to ${access}...`);
 
     if (!process.env.MEMBERSTACK_DEFAULT_PLAN) {
