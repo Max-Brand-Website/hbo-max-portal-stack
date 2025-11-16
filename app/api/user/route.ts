@@ -72,9 +72,11 @@ export async function GET(request: NextRequest) {
 
     // If access hasn't changed, bail out
     if (
-      memberstackUser.data.planConnections.some(
-        (p) => p?.planID === process.env.MEMBERSTACK_DEFAULT_PLAN
-      )
+      memberstackUser.data.planConnections.some((p) => {
+        if (typeof p === "object" && "planID" in p) {
+          p?.planID === process.env.MEMBERSTACK_DEFAULT_PLAN;
+        }
+      })
     ) {
       console.log(`${name} access is already ${access}. Skipping...`);
       // Not using verbose message, keeping it the same as the success message so regional managers are unaware that we're swallowing requests
