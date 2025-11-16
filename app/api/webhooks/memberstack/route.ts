@@ -10,13 +10,14 @@ const memberstack = memberstackAdmin.init(
 export async function POST(req: NextRequest) {
   try {
     // Parse body (NextRequest does NOT have req.body)
-    const body = await req.json();
+    const rawBody = await req.text();
+    const body = JSON.parse(rawBody);
 
     // 1. Verify webhook signature
     const isValid = memberstack.verifyWebhookSignature({
       headers: Object.fromEntries(req.headers.entries()),
       secret: process.env.MEMBERSTACK_WEBHOOK_SECRET as string,
-      payload: body,
+      payload: rawBody as any,
     });
 
     if (!isValid) {
