@@ -65,8 +65,17 @@ export async function GET(request: NextRequest) {
 
     console.log(`Setting ${email} from ${prevAccess} to ${access}...`);
 
+    if (!process.env.MEMBERSTACK_DEFAULT_PLAN) {
+      console.log("Missing ENV MEMBERSTACK_DEFAULT_PLAN");
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+
     // If access hasn't changed, bail out
-    if (prevAccess === access) {
+    if (
+      memberstackUser.data.planConnections.some(
+        (p) => p?.planID === process.env.MEMBERSTACK_DEFAULT_PLAN
+      )
+    ) {
       console.log(`${name} access is already ${access}. Skipping...`);
       // Not using verbose message, keeping it the same as the success message so regional managers are unaware that we're swallowing requests
       // const message = `${name} access is already ${access}. This can happen if someone else already managed their request, or if your email client opens links multiple times to verify them.`
@@ -86,10 +95,6 @@ export async function GET(request: NextRequest) {
       // Blacklisted users we delete, but it's okay if they don't exist
       memberstack.members.delete({ id: memberstackUser.data.id });
     } else {
-      if (!process.env.MEMBERSTACK_DEFAULT_PLAN) {
-        return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-      }
-
       await memberstack.members.addFreePlan({
         id: memberstackUser.data.id,
         data: {
