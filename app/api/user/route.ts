@@ -34,6 +34,8 @@ export async function GET(request: NextRequest) {
     const access = request.nextUrl.searchParams.get("access")!;
     const emailParam = request.nextUrl.searchParams.get("email");
 
+    console.log("params", { id, access, emailParam });
+
     if (
       !id ||
       (access !== "Approved" &&
@@ -47,6 +49,8 @@ export async function GET(request: NextRequest) {
 
     // Fetch user's information from Airtable
     const user = await base("Users").find(id);
+
+    console.log("airtable", user);
 
     const {
       Name: name,
@@ -64,6 +68,11 @@ export async function GET(request: NextRequest) {
     });
 
     console.log({ memberstackUser });
+
+    if (!memberstackUser) {
+      console.log("Missing memberstack user");
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
 
     console.log(`Setting ${email} from ${prevAccess} to ${access}...`);
 
