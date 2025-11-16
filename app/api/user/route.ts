@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       Access: prevAccess,
     } = user.fields;
 
-    if (!email) {
+    if (!email || typeof email !== "string" || !emailParam) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
