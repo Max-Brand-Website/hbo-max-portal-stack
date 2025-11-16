@@ -9,14 +9,16 @@ const memberstack = memberstackAdmin.init(
 
 export async function POST(req: NextRequest) {
   try {
+    console.log({
+      MEMBERSTACK_WEBHOOK_SECRET: process.env.MEMBERSTACK_WEBHOOK_SECRET,
+    });
     // Parse body (NextRequest does NOT have req.body)
     const rawBody = await req.text();
-    const body = JSON.parse(rawBody);
 
     // 1. Verify webhook signature
     const isValid = memberstack.verifyWebhookSignature({
       headers: Object.fromEntries(req.headers.entries()),
-      secret: process.env.MEMBERSTACK_WEBHOOK_SECRET as string,
+      secret: process.env.MEMBERSTACK_WEBHOOK_SECRET!,
       payload: rawBody as any,
     });
 
@@ -25,6 +27,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
 
+    const body = JSON.parse(rawBody);
     // 2. Check for duplicate webhooks
     const webhookId = req.headers.get("ms-webhook-id");
 
