@@ -1,3 +1,6 @@
+export const runtime = "nodejs"; // Force serverless (shows logs)
+export const dynamic = "force-dynamic"; // Prevent caching
+
 import memberstackAdmin from "@memberstack/admin";
 import { NextRequest, NextResponse } from "next/server";
 import airtable from "airtable";
