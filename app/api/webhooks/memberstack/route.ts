@@ -1,86 +1,55 @@
-export const runtime = "nodejs"; // Force serverless (shows logs)
-export const dynamic = "force-dynamic"; // Prevent caching
-
-import memberstackAdmin from "@memberstack/admin";
 import { NextRequest, NextResponse } from "next/server";
-import airtable from "airtable";
+import memberstackAdmin from "@memberstack/admin";
 
-const base = airtable.base(process.env.AIRTABLE_BASE_ID!);
-const memberstack = memberstackAdmin.init(
-  process.env.MEMBERSTACK_SECRET_KEY as string
-);
+export const runtime = "nodejs"; // required for proper raw body handling
+export const dynamic = "force-dynamic"; // avoid caching errors
+
+const memberstack = memberstackAdmin.init(process.env.MEMBERSTACK_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
   try {
-    const secret = process.env.MEMBERSTACK_WEBHOOK_SECRET!;
-    console.log({
-      MEMBERSTACK_WEBHOOK_SECRET: secret,
-    });
-    // Parse body (NextRequest does NOT have req.body)
+    // 1. Read the raw body (equivalent to disabling bodyParser)
     const rawBody = await req.text();
 
+    // 2. Collect headers exactly as Memberstack expects
     const headers = {
-      "svix-id":
-        req.headers.get("svix-id") ||
-        req.headers.get("Svix-Id") ||
-        req.headers.get("SVIX-ID"),
-      "svix-timestamp":
-        req.headers.get("svix-timestamp") ||
-        req.headers.get("Svix-Timestamp") ||
-        req.headers.get("SVIX-TIMESTAMP"),
-      "svix-signature":
-        req.headers.get("svix-signature") ||
-        req.headers.get("Svix-Signature") ||
-        req.headers.get("SVIX-SIGNATURE"),
+      "svix-id": req.headers.get("svix-id") || "",
+      "svix-timestamp": req.headers.get("svix-timestamp") || "",
+      "svix-signature": req.headers.get("svix-signature") || "",
     };
 
-    console.log("All headers:", req.headers);
-
-    // 1. Verify webhook signature
+    // 3. Verify signature (same as Pages example)
     const isValid = memberstack.verifyWebhookSignature({
-      payload: JSON.parse(rawBody), // parsed JSON
-      headers: req.headers, // Svix headers
-      secret,
+      payload: JSON.parse(rawBody),
+      headers,
+      secret: process.env.MEMBERSTACK_WEBHOOK_SECRET!,
     });
 
     if (!isValid) {
       console.error("Invalid webhook signature");
-      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
-    const body = JSON.parse(rawBody);
-    // 2. Check for duplicate webhooks
-    const webhookId = req.headers.get("ms-webhook-id");
+    // 4. Safe to parse JSON AFTER verification
+    const data = JSON.parse(rawBody);
 
-    if (!webhookId) {
-      console.error("Missing webhook ID");
-      return NextResponse.json(
-        { error: "Missing webhook ID" },
-        { status: 400 }
-      );
-    }
+    console.log("Webhook event verified:", data.event);
 
-    // 3. Handle event data
-    const { event, payload, timestamp } = body;
-
-    console.log(`Processing webhook: ${event}`);
-
-    switch (event) {
+    // Handle events
+    switch (data.event) {
       case "member.created":
-        // TODO: Handle new member creation
-        console.log("Member created:", payload);
+        console.log("Handle member.created");
         break;
-
+      case "member.updated":
+        console.log("Handle member.updated");
+        break;
       default:
-        console.log(`Unhandled event type: ${event}`);
+        console.log("Unhandled event:", data.event);
     }
 
-    // Must return 200 so Memberstack does not retry
-    return NextResponse.json({ ok: true });
-  } catch (error) {
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
     console.error("Webhook processing error:", error);
-
-    // Still return 200 to avoid retries
-    return NextResponse.json({ error: "Error processed" }, { status: 200 });
+    return NextResponse.json({ error: error.message }, { status: 400 });
   }
 }
