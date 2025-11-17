@@ -20,12 +20,21 @@ export async function POST(req: NextRequest) {
     const rawBody = await req.text();
 
     const headers = {
-      "svix-id": req.headers.get("svix-id") || "",
-      "svix-timestamp": req.headers.get("svix-timestamp") || "",
-      "svix-signature": req.headers.get("svix-signature") || "",
+      "svix-id":
+        req.headers.get("svix-id") ||
+        req.headers.get("Svix-Id") ||
+        req.headers.get("SVIX-ID"),
+      "svix-timestamp":
+        req.headers.get("svix-timestamp") ||
+        req.headers.get("Svix-Timestamp") ||
+        req.headers.get("SVIX-TIMESTAMP"),
+      "svix-signature":
+        req.headers.get("svix-signature") ||
+        req.headers.get("Svix-Signature") ||
+        req.headers.get("SVIX-SIGNATURE"),
     };
 
-    console.log(headers);
+    console.log("All headers:", req.headers);
 
     // 1. Verify webhook signature
     const isValid = memberstack.verifyWebhookSignature({
