@@ -25,6 +25,8 @@ export async function POST(req: NextRequest) {
       "svix-signature": req.headers.get("svix-signature") || "",
     };
 
+    console.log(headers);
+
     // 1. Verify webhook signature
     const isValid = memberstack.verifyWebhookSignature({
       payload: JSON.parse(rawBody), // parsed JSON
