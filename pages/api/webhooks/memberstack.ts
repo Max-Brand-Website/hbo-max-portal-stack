@@ -1,7 +1,6 @@
 // pages/api/webhook.js
 import memberstackAdmin from "@memberstack/admin";
 import { NextApiRequest, NextApiResponse } from "next";
-import { headers } from "next/headers";
 
 // Initialize Memberstack outside the handler
 const memberstack = memberstackAdmin.init(
@@ -31,19 +30,19 @@ export default async function handler(
     }
     const rawBody = Buffer.concat(chunks).toString("utf8");
 
-    const headersList = await headers();
-    const svixId = headersList.get("svix-id");
-    const svixTimestamp = headersList.get("svix-timestamp");
-    const svixSignature = headersList.get("svix-signature");
+    // Extract the specific headers Svix needs
+    const svixHeaders = {
+      "svix-id": req.headers["svix-id"],
+      "svix-timestamp": req.headers["svix-timestamp"],
+      "svix-signature": req.headers["svix-signature"],
+    };
 
-    if (!svixId || !svixTimestamp || !svixSignature) {
-      return new Response("Missing svix headers", { status: 400 });
-    }
+    console.log("Svix headers:", svixHeaders); // Debug
 
-    // Verify webhook
+    // Verify webhook with explicit headers
     const isValid = memberstack.verifyWebhookSignature({
       payload: JSON.parse(rawBody),
-      headers: req.headers,
+      headers: svixHeaders,
       secret: process.env.MEMBERSTACK_WEBHOOK_SECRET || "",
     });
 
