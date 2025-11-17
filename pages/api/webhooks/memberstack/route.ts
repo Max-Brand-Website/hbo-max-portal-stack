@@ -1,7 +1,6 @@
 // pages/api/webhook.js
 import memberstackAdmin from "@memberstack/admin";
 import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server";
 
 // Initialize Memberstack outside the handler
 const memberstack = memberstackAdmin.init(
