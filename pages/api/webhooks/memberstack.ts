@@ -1,7 +1,9 @@
 // pages/api/webhook.js
 import memberstackAdmin from "@memberstack/admin";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Webhook } from "svix";
+import airtable from "airtable";
+
+const base = airtable.base(process.env.AIRTABLE_BASE_ID!);
 
 // Initialize Memberstack outside the handler
 const memberstack = memberstackAdmin.init(
@@ -51,7 +53,31 @@ export default async function handler(
       const data = JSON.parse(rawBody);
       console.log(`Webhook event: ${data.event}`);
 
-      // Process webhook...
+      switch (data.event) {
+        case "member.created":
+          console.log("New User Data", data.payload);
+
+          const response = await base("Users").create([
+            {
+              fields: {
+                Email: data.payload.auth.email,
+                Name: data.payload.customFields["Name"],
+                Company: data.payload.customFields["Company"],
+                Reason: data.payload.customFields["Reason"],
+                Region: [data.payload.customFields["Region"]],
+                "Contact Name": data.payload.customFields["Contact Name"],
+                "Contact Email": data.payload.customFields["Contact Email"],
+              },
+            },
+          ]);
+
+          // Handle member creation
+          break;
+        case "member.updated":
+          // Handle member update
+          break;
+        // Add more event types as needed
+      }
 
       return res.status(200).json({ success: true });
     } else {
