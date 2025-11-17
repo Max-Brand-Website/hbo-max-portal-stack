@@ -72,14 +72,14 @@ export default async function handler(
             {
               fields: {
                 Email: data.payload.auth.email,
-                Name: data.payload.customFields?.["Name"] || "",
-                Company: data.payload.customFields?.["Company"] || "",
-                Reason: data.payload.customFields?.["Reason"] || "",
+                Name: data.payload.customFields?.["name"] || "",
+                Company: data.payload.customFields?.["company"] || "",
+                Reason: data.payload.customFields?.["reason"] || "",
                 Region: region ? [region.id] : undefined,
                 "Contact Name":
-                  data.payload.customFields?.["Contact Name"] || "",
+                  data.payload.customFields?.["contact-name"] || "",
                 "Contact Email":
-                  data.payload.customFields?.["Contact Email"] || "",
+                  data.payload.customFields?.["contact-email"] || "",
               },
             },
           ]);

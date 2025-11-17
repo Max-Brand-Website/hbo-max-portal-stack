@@ -107,6 +107,9 @@ export async function GET(request: NextRequest) {
           planId: process.env.MEMBERSTACK_DEFAULT_PLAN,
         },
       });
+      await base("Users").update(id, {
+        Access: access,
+      });
     } else if (access === "Blacklisted") {
       await memberstack.members.addFreePlan({
         id: memberstackUser.data.id,
@@ -114,14 +117,15 @@ export async function GET(request: NextRequest) {
           planId: process.env.MEMBERSTACK_BLACKLIST_PLAN || "",
         },
       });
+      await base("Users").update(id, {
+        Access: access,
+      });
     } else {
       memberstack.members.delete({ id: memberstackUser.data.id });
+      await base("Users").destroy(id);
     }
 
     // Update the user's access in Airtable
-    await base("Users").update(id, {
-      Access: access,
-    });
 
     let resendData, resendError;
     if (
@@ -153,8 +157,10 @@ export async function GET(request: NextRequest) {
 
     const message =
       access === "Deleted"
-        ? `${name}'s account has been deleted in Memberstack. They'll need to sign up again to access the portal.`
-        : `${name}'s access has been set to ${access}`;
+        ? `${
+            name || email
+          }'s account has been deleted in Memberstack. They'll need to sign up again to access the portal.`
+        : `${name || email}'s access has been set to ${access}`;
 
     return new NextResponse(html("Success", message), {
       status: 200,
