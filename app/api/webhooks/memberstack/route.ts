@@ -11,12 +11,10 @@ export async function POST(req: NextRequest) {
     // 1. Read the raw body (equivalent to disabling bodyParser)
     const rawBody = await req.text();
 
-    // 2. Collect headers exactly as Memberstack expects
-    const headers = {
-      "svix-id": req.headers.get("svix-id") || "",
-      "svix-timestamp": req.headers.get("svix-timestamp") || "",
-      "svix-signature": req.headers.get("svix-signature") || "",
-    };
+    // 2. IMPORTANT: Pass ALL headers exactly as received
+    const headers = Object.fromEntries(req.headers.entries());
+
+    console.log("Received headers:", headers);
 
     // 3. Verify signature (same as Pages example)
     const isValid = memberstack.verifyWebhookSignature({
