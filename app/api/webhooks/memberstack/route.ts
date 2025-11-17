@@ -12,17 +12,24 @@ const memberstack = memberstackAdmin.init(
 
 export async function POST(req: NextRequest) {
   try {
+    const secret = process.env.MEMBERSTACK_WEBHOOK_SECRET!;
     console.log({
-      MEMBERSTACK_WEBHOOK_SECRET: process.env.MEMBERSTACK_WEBHOOK_SECRET,
+      MEMBERSTACK_WEBHOOK_SECRET: secret,
     });
     // Parse body (NextRequest does NOT have req.body)
     const rawBody = await req.text();
 
+    const headers = {
+      "svix-id": req.headers.get("svix-id") || "",
+      "svix-timestamp": req.headers.get("svix-timestamp") || "",
+      "svix-signature": req.headers.get("svix-signature") || "",
+    };
+
     // 1. Verify webhook signature
     const isValid = memberstack.verifyWebhookSignature({
-      headers: Object.fromEntries(req.headers.entries()),
+      payload: JSON.parse(rawBody), // parsed JSON
+      headers, // Svix headers
       secret: process.env.MEMBERSTACK_WEBHOOK_SECRET!,
-      payload: rawBody as any,
     });
 
     if (!isValid) {
