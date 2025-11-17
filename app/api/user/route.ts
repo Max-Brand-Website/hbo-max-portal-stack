@@ -111,6 +111,7 @@ export async function GET(request: NextRequest) {
         Access: access,
       });
     } else if (access === "Blacklisted") {
+      console.log("setting user to blacklisted");
       await memberstack.members.addFreePlan({
         id: memberstackUser.data.id,
         data: {
