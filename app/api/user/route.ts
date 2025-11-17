@@ -90,8 +90,6 @@ export async function GET(request: NextRequest) {
       })
     ) {
       console.log(`${name} access is already ${access}. Skipping...`);
-      // Not using verbose message, keeping it the same as the success message so regional managers are unaware that we're swallowing requests
-      // const message = `${name} access is already ${access}. This can happen if someone else already managed their request, or if your email client opens links multiple times to verify them.`
       const message = `${name}'s access has been set to ${access}`;
       return new NextResponse(html("Success", message), {
         status: 200,
@@ -102,18 +100,22 @@ export async function GET(request: NextRequest) {
     }
 
     let webflowData;
-    if (access === "Deleted") {
-      memberstack.members.delete({ id: memberstackUser.data.id });
-    } else if (access == "Blacklisted") {
-      // Blacklisted users we delete, but it's okay if they don't exist
-      memberstack.members.delete({ id: memberstackUser.data.id });
-    } else {
+    if (access === "Approved") {
       await memberstack.members.addFreePlan({
         id: memberstackUser.data.id,
         data: {
           planId: process.env.MEMBERSTACK_DEFAULT_PLAN,
         },
       });
+    } else if (access === "Blacklisted") {
+      await memberstack.members.addFreePlan({
+        id: memberstackUser.data.id,
+        data: {
+          planId: process.env.MEMBERSTACK_BLACKLIST_PLAN || "",
+        },
+      });
+    } else {
+      memberstack.members.delete({ id: memberstackUser.data.id });
     }
 
     // Update the user's access in Airtable
