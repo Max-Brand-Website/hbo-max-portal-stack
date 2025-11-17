@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import airtable from "airtable";
 
 const base = airtable.base(process.env.AIRTABLE_BASE_ID!);
-
 // Initialize Memberstack outside the handler
 const memberstack = memberstackAdmin.init(
   process.env.MEMBERSTACK_SECRET_KEY || ""
@@ -61,12 +60,14 @@ export default async function handler(
             {
               fields: {
                 Email: data.payload.auth.email,
-                Name: data.payload.customFields["Name"],
-                Company: data.payload.customFields["Company"],
-                Reason: data.payload.customFields["Reason"],
-                Region: [data.payload.customFields["Region"]],
-                "Contact Name": data.payload.customFields["Contact Name"],
-                "Contact Email": data.payload.customFields["Contact Email"],
+                Name: data.payload.customFields?.["Name"] || "",
+                Company: data.payload.customFields?.["Company"] || "",
+                Reason: data.payload.customFields?.["Reason"] || "",
+                Region: [data.payload.customFields?.["Region"]],
+                "Contact Name":
+                  data.payload.customFields?.["Contact Name"] || "",
+                "Contact Email":
+                  data.payload.customFields?.["Contact Email"] || "",
               },
             },
           ]);
