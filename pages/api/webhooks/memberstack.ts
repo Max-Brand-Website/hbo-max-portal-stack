@@ -56,6 +56,18 @@ export default async function handler(
         case "member.created":
           console.log("New User Data", data.payload);
 
+          const regions = await base("Regions")
+            .select({
+              maxRecords: 100,
+            })
+            .all();
+
+          // Map region name from Webflow to Airtable ID
+          const region = regions.find(
+            (region) =>
+              region.fields.Name === data.payload.customFields?.["Region"]
+          )!;
+
           const response = await base("Users").create([
             {
               fields: {
@@ -63,7 +75,7 @@ export default async function handler(
                 Name: data.payload.customFields?.["Name"] || "",
                 Company: data.payload.customFields?.["Company"] || "",
                 Reason: data.payload.customFields?.["Reason"] || "",
-                Region: [data.payload.customFields?.["Region"]],
+                Region: region ? [region.id] : undefined,
                 "Contact Name":
                   data.payload.customFields?.["Contact Name"] || "",
                 "Contact Email":
