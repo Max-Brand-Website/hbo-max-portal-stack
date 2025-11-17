@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     const isValid = memberstack.verifyWebhookSignature({
       payload: JSON.parse(rawBody), // parsed JSON
       headers: req.headers, // Svix headers
-      secret: process.env.MEMBERSTACK_WEBHOOK_SECRET!,
+      secret,
     });
 
     if (!isValid) {
