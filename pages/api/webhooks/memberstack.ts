@@ -65,7 +65,7 @@ export default async function handler(
           // Map region name from Webflow to Airtable ID
           const region = regions.find(
             (region) =>
-              region.fields.Name === data.payload.customFields?.["Region"]
+              region.fields.Name === data.payload.customFields?.["region"]
           )!;
 
           const response = await base("Users").create([
