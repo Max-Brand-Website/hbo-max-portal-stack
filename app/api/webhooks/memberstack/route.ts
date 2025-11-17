@@ -12,7 +12,9 @@ export async function POST(req: NextRequest) {
     const rawBody = await req.text();
 
     // 2. IMPORTANT: Pass ALL headers exactly as received
-    const headers = Object.fromEntries(req.headers.entries());
+    const headers = JSON.parse(
+      JSON.stringify(Object.fromEntries(req.headers.entries()))
+    );
 
     console.log("Received headers:", headers);
 
