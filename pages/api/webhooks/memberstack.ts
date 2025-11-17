@@ -1,6 +1,7 @@
 // pages/api/webhook.js
 import memberstackAdmin from "@memberstack/admin";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Webhook } from "svix";
 
 // Initialize Memberstack outside the handler
 const memberstack = memberstackAdmin.init(
@@ -38,6 +39,17 @@ export default async function handler(
     };
 
     console.log("Svix headers:", svixHeaders); // Debug
+
+    const wh = new Webhook(process.env.MEMBERSTACK_WEBHOOK_SECRET || "");
+
+    const payload = wh.verify(rawBody, {
+      "svix-id": req.headers["svix-id"] as string,
+      "svix-timestamp": req.headers["svix-timestamp"] as string,
+      "svix-signature": req.headers["svix-signature"] as string,
+    });
+
+    console.log("Webhook verified successfully");
+    const data = payload;
 
     // Verify webhook with explicit headers
     const isValid = memberstack.verifyWebhookSignature({
