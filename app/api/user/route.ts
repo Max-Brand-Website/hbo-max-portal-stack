@@ -100,32 +100,36 @@ export async function GET(request: NextRequest) {
     }
 
     let webflowData;
-    if (access === "Approved") {
-      await memberstack.members.addFreePlan({
-        id: memberstackUser.data.id,
-        data: {
-          planId: process.env.MEMBERSTACK_DEFAULT_PLAN,
-        },
-      });
-      await base("Users").update(id, {
-        Access: access,
-      });
-    } else if (access === "Blacklisted") {
-      console.log("setting user to blacklisted");
-      await memberstack.members.addFreePlan({
-        id: memberstackUser.data.id,
-        data: {
-          planId: process.env.MEMBERSTACK_BLACKLIST_PLAN || "",
-        },
-      });
-      await base("Users").update(id, {
-        Access: access,
-      });
-    } else {
-      memberstack.members.delete({ id: memberstackUser.data.id });
-      await base("Users").destroy(id);
-    }
+    switch (access) {
+      case "Approved":
+        await memberstack.members.addFreePlan({
+          id: memberstackUser.data.id,
+          data: {
+            planId: process.env.MEMBERSTACK_DEFAULT_PLAN,
+          },
+        });
+        await base("Users").update(id, {
+          Access: access,
+        });
+        break;
+      case "Blacklisted":
+        console.log("setting user to blacklisted");
+        await memberstack.members.addFreePlan({
+          id: memberstackUser.data.id,
+          data: {
+            planId: process.env.MEMBERSTACK_BLACKLIST_PLAN || "",
+          },
+        });
+        await base("Users").update(id, {
+          Access: access,
+        });
+        break;
 
+      default:
+        memberstack.members.delete({ id: memberstackUser.data.id });
+        await base("Users").destroy(id);
+        break;
+    }
     // Update the user's access in Airtable
 
     let resendData, resendError;
