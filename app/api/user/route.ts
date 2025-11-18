@@ -100,6 +100,7 @@ export async function GET(request: NextRequest) {
     }
 
     let webflowData;
+    console.log("new access", access);
     switch (access) {
       case "Approved":
         await memberstack.members.addFreePlan({
@@ -126,7 +127,7 @@ export async function GET(request: NextRequest) {
         break;
 
       default:
-        memberstack.members.delete({ id: memberstackUser.data.id });
+        await memberstack.members.delete({ id: memberstackUser.data.id });
         await base("Users").destroy(id);
         break;
     }
