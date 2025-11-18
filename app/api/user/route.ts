@@ -82,22 +82,22 @@ export async function GET(request: NextRequest) {
     }
 
     // If access hasn't changed, bail out
-    if (
-      memberstackUser.data.planConnections.some((p) => {
-        if (typeof p === "object" && "planID" in p) {
-          p?.planID === process.env.MEMBERSTACK_DEFAULT_PLAN;
-        }
-      })
-    ) {
-      console.log(`${name} access is already ${access}. Skipping...`);
-      const message = `${name}'s access has been set to ${access}`;
-      return new NextResponse(html("Success", message), {
-        status: 200,
-        headers: {
-          "Content-Type": "text/html",
-        },
-      });
-    }
+    // if (
+    //   memberstackUser.data.planConnections.some((p) => {
+    //     if (typeof p === "object" && "planID" in p) {
+    //       p?.planID === process.env.MEMBERSTACK_DEFAULT_PLAN;
+    //     }
+    //   })
+    // ) {
+    //   console.log(`${name} access is already ${access}. Skipping...`);
+    //   const message = `${name}'s access has been set to ${access}`;
+    //   return new NextResponse(html("Success", message), {
+    //     status: 200,
+    //     headers: {
+    //       "Content-Type": "text/html",
+    //     },
+    //   });
+    // }
 
     let webflowData;
     console.log("new access", access);
