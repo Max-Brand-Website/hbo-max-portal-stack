@@ -97,6 +97,7 @@ export async function GET(request: NextRequest) {
     console.log("new access", access);
     switch (access) {
       case "Approved":
+        console.log("member approved");
         await memberstack.members.addFreePlan({
           id: memberstackUser.data.id,
           data: {
@@ -121,6 +122,7 @@ export async function GET(request: NextRequest) {
         break;
 
       default:
+        console.log("member deleted");
         await memberstack.members.delete({ id: memberstackUser.data.id });
         await base("Users").destroy(id);
         break;
