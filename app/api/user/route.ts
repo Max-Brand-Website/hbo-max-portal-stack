@@ -123,8 +123,16 @@ export async function GET(request: NextRequest) {
 
       default:
         console.log("member deleted");
-        await memberstack.members.delete({ id: memberstackUser.data.id });
-        await base("Users").destroy(id);
+        try {
+          await memberstack.members.delete({ id: memberstackUser.data.id });
+        } catch (error) {
+          throw Error("Could Not Delete Memeberstack User");
+        }
+        try {
+          await base("Users").destroy(id);
+        } catch (error) {
+          throw Error("Could Not Delete Airtable User");
+        }
         break;
     }
     // Update the user's access in Airtable
