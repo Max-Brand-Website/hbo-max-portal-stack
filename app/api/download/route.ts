@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
     {
       fields: {
         "Email": email,
-        "Name": name,
+        "Name": name, 
        // "Company": company,
        // "Region": region,
         //"Memberstack ID": memberId,
