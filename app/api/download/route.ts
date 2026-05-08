@@ -58,9 +58,9 @@ export async function GET(request: NextRequest) {
         "File Name": fileName,
         "File URL": fileUrl,
         "Downloaded At": new Date().toISOString(),
-        ...(linkedUserRecordId
-          ? { "User": [linkedUserRecordId] }
-          : {}),
+       // ...(linkedUserRecordId
+         // ? { "User": [linkedUserRecordId] }
+          //: {}),
       },
     },
   ]);
