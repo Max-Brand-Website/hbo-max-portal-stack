@@ -54,14 +54,14 @@ export async function GET(request: NextRequest) {
   await base("Download Activity").create([
     {
       fields: {
-        //"Email": email,
+        "Email": email,
         "Name": name,
-       // "Company": company,
-        //"Region": region,
+        "Company": company,
+        "Region": region,
         //"Memberstack ID": memberId,
         "File Name": fileName,
-        //"File URL": fileUrl,
-       // "Downloaded At": new Date().toISOString(),
+        "File URL": fileUrl,
+        "Downloaded At": new Date().toISOString(),
        // ...(linkedUserRecordId
          // ? { "User": [linkedUserRecordId] }
           //: {}),
