@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
 
   const fileName = searchParams.get("fileName") || "Unknown File";
   
-  const fileUrl = searchParams.get("fileUrl");
+  const fileUrl = searchParams.get("fileUrl") || "";
 
   const normalUrl = decodeURIComponent(fileUrl);
 
