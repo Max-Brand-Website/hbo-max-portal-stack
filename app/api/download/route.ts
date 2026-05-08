@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
 
   const normalUrl = decodeURIComponent(fileUrl);
 
-  console.log(normalUrl);
+  console.log(normalUrl); 
   
   const email = searchParams.get("email") || "";
   
