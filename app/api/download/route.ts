@@ -10,15 +10,20 @@ function escapeFormulaValue(value: string) {
 }
 
 export async function GET(request: NextRequest) {
+  
   const { searchParams } = new URL(request.url); 
 
   const fileName = searchParams.get("fileName") || "Unknown File";
+  
   const fileUrl = searchParams.get("fileUrl");
+  
   const email = searchParams.get("email") || "";
+  
   const name = searchParams.get("name") || "";
   const company = searchParams.get("company") || "";
   const region = searchParams.get("region") || "";
-  const memberId = searchParams.get("memberId") || "";
+  //const memberId = searchParams.get("memberId") || "";
+  console.log({fileName,fileUrl,email,name,company,region})
 
   if (!fileUrl) {
     return NextResponse.json(
@@ -49,12 +54,12 @@ export async function GET(request: NextRequest) {
         "Name": name,
         "Company": company,
         "Region": region,
-        "Memberstack ID": memberId,
+        //"Memberstack ID": memberId,
         "File Name": fileName,
         "File URL": fileUrl,
         "Downloaded At": new Date().toISOString(),
         ...(linkedUserRecordId
-          ? { "User": linkedUserRecordId }
+          ? { "User": [linkedUserRecordId] }
           : {}),
       },
     },
