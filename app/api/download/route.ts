@@ -16,6 +16,10 @@ export async function GET(request: NextRequest) {
   const fileName = searchParams.get("fileName") || "Unknown File";
   
   const fileUrl = searchParams.get("fileUrl");
+
+  const normalUrl = decodeURIComponent(fileUrl);
+
+  console.log(normalUrl);
   
   const email = searchParams.get("email") || "";
   
@@ -65,5 +69,5 @@ export async function GET(request: NextRequest) {
     },
   ]);
 
-  return NextResponse.redirect(fileUrl);
+  return NextResponse.redirect(normalUrl);
 }
