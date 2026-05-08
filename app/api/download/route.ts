@@ -56,11 +56,11 @@ export async function GET(request: NextRequest) {
       fields: {
         "Email": email,
         "Name": name,
-        "Company": company,
-        "Region": region,
+       // "Company": company,
+       // "Region": region,
         //"Memberstack ID": memberId,
         "File Name": fileName,
-        "File URL": fileUrl,
+        //"File URL": fileUrl,
         "Downloaded At": new Date().toISOString(),
        // ...(linkedUserRecordId
          // ? { "User": [linkedUserRecordId] }
