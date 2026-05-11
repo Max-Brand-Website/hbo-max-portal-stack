@@ -26,8 +26,9 @@ export async function GET(request: NextRequest) {
   const name = searchParams.get("name") || "";
   const company = searchParams.get("company") || "";
   const region = searchParams.get("region") || "";
+  const pageUrl = searchParams.get("pageUrl") || "";
   //const memberId = searchParams.get("memberId") || "";
-  console.log({fileName,fileUrl,email,name,company,region})
+  console.log({fileName,fileUrl,email,name,company,region,pageUrl})
 
   if (!fileUrl) {
     return NextResponse.json(
@@ -62,6 +63,7 @@ export async function GET(request: NextRequest) {
         "File Name": fileName,
         "File URL": fileUrl,
         "Downloaded At": new Date().toISOString(),
+        "Page URL": pageUrl,
        // ...(linkedUserRecordId
          // ? { "User": [linkedUserRecordId] }
           //: {}),
