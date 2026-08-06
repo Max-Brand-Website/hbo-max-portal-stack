@@ -11,6 +11,15 @@ if (!process.env.MEMBERSTACK_SECRET_KEY) {
 
 const memberstack = memberstackAdmin.init(process.env.MEMBERSTACK_SECRET_KEY);
 
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers });
+}
+
 export async function GET(request: NextRequest) {
   try {
     console.log(`Received GET to /api/user/verify-email...`);

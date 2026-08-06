@@ -22,6 +22,17 @@ if (!process.env.MEMBERSTACK_SECRET_KEY) {
 }
 
 const memberstack = memberstackAdmin.init(process.env.MEMBERSTACK_SECRET_KEY);
+
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 204, headers });
+}
+
 // This endpoint receives update events from Airtable
 // and updates the user's access group in Webflow and notifies them via email
 export async function GET(request: NextRequest) {
@@ -188,12 +199,12 @@ export async function GET(request: NextRequest) {
           headers: {
             "Content-Type": "text/html",
           },
-        }
+        },
       );
     }
     return NextResponse.json(
       { error: err },
-      { status: (err as any).status || 500 }
+      { status: (err as any).status || 500 },
     );
   }
 }
