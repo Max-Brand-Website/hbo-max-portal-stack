@@ -32,7 +32,10 @@ export async function GET(request: NextRequest) {
     const { Email: email, Access: currentAccess } = user.fields;
 
     if (!email || typeof email !== "string") {
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request" },
+        { headers, status: 400 },
+      );
     }
 
     let memberstackUser = await memberstack.members.retrieve({
@@ -41,7 +44,10 @@ export async function GET(request: NextRequest) {
 
     if (!memberstackUser) {
       console.log("Missing memberstack user");
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request" },
+        { headers, status: 400 },
+      );
     }
 
     await memberstack.members.update({
@@ -54,6 +60,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(html("Success", "Email Verified"), {
       status: 200,
       headers: {
+        ...headers,
         "Content-Type": "text/html",
       },
     });
@@ -65,6 +72,7 @@ export async function GET(request: NextRequest) {
         {
           status: 200,
           headers: {
+            ...headers,
             "Content-Type": "text/html",
           },
         },
@@ -72,7 +80,7 @@ export async function GET(request: NextRequest) {
     }
     return NextResponse.json(
       { error: err },
-      { status: (err as any).status || 500 },
+      { headers, status: (err as any).status || 500 },
     );
   }
 }

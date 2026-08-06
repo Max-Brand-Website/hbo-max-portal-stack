@@ -67,7 +67,10 @@ export async function GET(request: NextRequest) {
     } = user.fields;
 
     if (!email || typeof email !== "string" || !emailParam) {
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request" },
+        { headers, status: 400 },
+      );
     }
 
     let memberstackUser = await memberstack.members.retrieve({
@@ -76,14 +79,20 @@ export async function GET(request: NextRequest) {
 
     if (!memberstackUser) {
       console.log("Missing memberstack user");
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request" },
+        { headers, status: 400 },
+      );
     }
 
     console.log(`Setting ${email} from ${prevAccess} to ${access}...`);
 
     if (!process.env.MEMBERSTACK_DEFAULT_PLAN) {
       console.log("Missing ENV MEMBERSTACK_DEFAULT_PLAN");
-      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid request" },
+        { headers, status: 400 },
+      );
     }
 
     // If access hasn't changed, bail out
@@ -173,7 +182,10 @@ export async function GET(request: NextRequest) {
     if (resendError) {
       console.error(`Error sending email to ${email}...`);
       console.error(resendError);
-      return NextResponse.json({ error: resendError }, { status: 500 });
+      return NextResponse.json(
+        { error: resendError },
+        { headers, status: 500 },
+      );
     }
 
     const message =
@@ -186,6 +198,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(html("Success", message), {
       status: 200,
       headers: {
+        ...headers,
         "Content-Type": "text/html",
       },
     });
@@ -197,6 +210,7 @@ export async function GET(request: NextRequest) {
         {
           status: 200,
           headers: {
+            ...headers,
             "Content-Type": "text/html",
           },
         },
@@ -204,7 +218,7 @@ export async function GET(request: NextRequest) {
     }
     return NextResponse.json(
       { error: err },
-      { status: (err as any).status || 500 },
+      { headers, status: (err as any).status || 500 },
     );
   }
 }
